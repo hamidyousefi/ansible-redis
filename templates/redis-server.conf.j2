@@ -1,0 +1,31 @@
+# General -------------------------
+daemonize yes
+dir /var/lib/redis/{{ server.port }}
+port {{ server.port }}
+bind {{ ansible_host }}
+timeout 0
+tcp-keepalive 60
+tcp-backlog 4096
+loglevel notice
+logfile /var/log/redis/{{ server.port }}.log
+slowlog-log-slower-than 1000
+slowlog-max-len 128
+syslog-enabled yes
+syslog-ident {{ server.port }}
+syslog-facility user
+databases 16
+protected-mode no
+
+# Snapshotting --------------------
+save 900 1
+save 300 10
+save 60 10000
+stop-writes-on-bgsave-error yes
+rdbcompression no
+rdbchecksum no
+dbfilename {{ server.port }}.rdb
+
+# Limits --------------------------
+maxclients 10000
+maxmemory {{ usable_max_memory | int }}mb
+maxmemory-policy allkeys-lru
