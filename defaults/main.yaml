@@ -1,0 +1,3 @@
+---
+redis_sysctl:
+  somaxconn: 4096

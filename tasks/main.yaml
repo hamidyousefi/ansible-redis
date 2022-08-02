@@ -13,10 +13,10 @@
     name: net.ipv4.tcp_max_syn_backlog
     value: '409600'
 
-- name: "increasing somaxconn on the host to {{ sysctl.somaxconn }}"
+- name: "increasing somaxconn on the host to {{ redis_sysctl.somaxconn }}"
   sysctl:
     name: net.core.somaxconn
-    value: "{{ sysctl.somaxconn }}"
+    value: "{{ redis_sysctl.somaxconn }}"
 
 - name: disabling transparent huge pages on server by changing grub configuration
   lineinfile:
