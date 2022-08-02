@@ -1,5 +1,0 @@
----
-sysctl:
-  somaxconn: 409600
-server:
-  port: 6379
