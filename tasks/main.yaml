@@ -40,10 +40,19 @@
     dest: /usr/share/keyrings/redis-archive-keyring.asc
     mode: '0644'
 
+- name: remove legacy redis apt source list
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/redis.list
+    state: absent
+
 - name: add redis repository to sources list
-  ansible.builtin.apt_repository:
-    repo: deb [signed-by=/usr/share/keyrings/redis-archive-keyring.asc] https://packages.redis.io/deb {{ ansible_distribution_release }} main
-    filename: redis.list
+  ansible.builtin.deb822_repository:
+    name: redis
+    types: deb
+    uris: https://packages.redis.io/deb
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    signed_by: /usr/share/keyrings/redis-archive-keyring.asc
     state: present
 
 - name: install redis
